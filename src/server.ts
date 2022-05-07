@@ -1,32 +1,32 @@
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
+import Koa = require('koa');
+import Router = require('koa-router');
 import logger = require('koa-logger');
 import bodyparser = require('koa-bodyparser')
-import { userRouter } from './routes/user';
-import bookRoutes from './routes/book';
-import reviewRoutes from './routes/review';
+import { getAllFeeds, } from './controllers/feedController';
+
 require("dotenv").config();
 
 const port = process.env.PORT;
 
 const app = new Koa();
 
-const router = new Router();
+
+const router = new Router();   
+
+router.get("/feeds",getAllFeeds)
 
 app.use(logger());
 app.use(bodyparser());
-router.get('/hello', (ctx: Koa.Context) => {
-    ctx.body = 'Hello World';
-});
 
 app.use(router.routes());
-app.use(userRouter.routes());
-app.use(bookRoutes.routes());
-app.use(reviewRoutes.routes());
 
-//export const server=app.listen(port);
+
+app.listen(port);
 
 console.log(` My koa server is up and listening on port ${port}`)
 
+//mention what we are returing 
+//naming convention 
+// give ctx type
 
 export default app;
